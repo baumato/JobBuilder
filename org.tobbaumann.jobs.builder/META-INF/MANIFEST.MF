@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Jobs Builder
+Bundle-SymbolicName: org.tobbaumann.jobs.builder
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Tobias Baumann
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.google.common.base,
+ org.eclipse.core.runtime,
+ org.eclipse.core.runtime.jobs,
+ org.eclipse.jface.action,
+ org.eclipse.jface.operation,
+ org.eclipse.jface.resource,
+ org.eclipse.swt.events,
+ org.eclipse.ui.progress
+Export-Package: org.tobbaumann.jobs.builder
