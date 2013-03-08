@@ -8,7 +8,7 @@ Following the builder pattern this API allows to create and schedule Eclipse job
 ### Build and schedule a system job with a Runnable
 ```java
 Jobs.builder()
-  .title("Very important progress")
+	.title("Very important progress")
 	.isSystemJob()
 	.runnable(new Runnable() {
 		public void run() {
@@ -20,7 +20,7 @@ Jobs.builder()
 ### Build and schedule a user job with a IRunnableWithProgress
 ```java
 Job myUserJob = Jobs.builder()
-  .title("Very important progress").isUserJob()
+	.title("Very important progress").isUserJob()
 	.runnable(new IRunnableWithProgress() {
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException,
@@ -49,7 +49,7 @@ user because the job results are not not displayed immediately.
 
 ```java
 Jobs.builder()
-  .title("Long running progress")
+	.title("Long running progress")
 	.runnable(new IRunnableWithProgress() {
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException,
