@@ -215,7 +215,7 @@ public class JobBuilder {
 	 *
 	 * @return the job
 	 */
-	public Job buildAndShedule() {
+	public Job buildAndSchedule() {
 		InternalJob job = buildInternalJob();
 		job.schedule();
 		return job;
