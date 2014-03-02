@@ -3,16 +3,16 @@ JobBuilder
 
 Following the builder pattern this API allows to create and schedule Eclipse jobs in an easy manner.
 
-## Simple examples
+## A few examples
 
 ### Build and schedule a system job with a Runnable
 ```java
 Jobs.builder()
-	.title("Very important progress")
+	.title("Very important task in progress")
 	.isSystemJob()
 	.runnable(new Runnable() {
 		public void run() {
-			doImportantProgress();
+			doImportantTask();
 		}
 	}).buildAndSchedule();
 ```
@@ -20,12 +20,12 @@ Jobs.builder()
 ### Build and schedule a user job with a IRunnableWithProgress
 ```java
 Job myUserJob = Jobs.builder()
-	.title("Very important progress").isUserJob()
+	.title("Very important task triggered by user").isUserJob()
 	.runnable(new IRunnableWithProgress() {
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException,
 				InterruptedException {
-			doImportantProgress(monitor);
+			doImportantTask(monitor);
 		}
 	}).build();
 // add listener to job if you like
@@ -49,12 +49,12 @@ user because the job results are not not displayed immediately.
 
 ```java
 Jobs.builder()
-	.title("Long running progress")
+	.title("Long running task in progress")
 	.runnable(new IRunnableWithProgress() {
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException,
 				InterruptedException {
-			doImportantProgress(monitor);
+			doImportantTask(monitor);
 		}
 	}).userFeedbackForFinishedJob("Long running progress completed", new UserFeedbackRunnable() {
 		@Override
