@@ -84,7 +84,7 @@ final class InternalJob extends Job {
   }
 
   private void handleInterruption(InterruptedException e) {
-    jobResult = new Status(IStatus.CANCEL, "com.hlcl.sje", "Job has been canceled.", e);
+    jobResult = new Status(IStatus.CANCEL, "org.tobbaumann.jobs.builder", "Job has been canceled.", e);
   }
 
   private void handleError(Exception e) {
@@ -92,7 +92,7 @@ final class InternalJob extends Job {
     if (e instanceof InvocationTargetException) {
       t = ((InvocationTargetException) e).getTargetException();
     }
-    jobResult = new Status(IStatus.ERROR, "com.hlcl.sje", "Job finished with errors.", t);
+    jobResult = new Status(IStatus.ERROR, "org.tobbaumann.jobs.builder", "Job finished with errors.", t);
   }
 
   private void applyImageIfAvailable() {
@@ -128,6 +128,6 @@ final class InternalJob extends Job {
   }
 
   private IStatus createStatus() {
-    return new Status(IStatus.OK, "com.hlcl.sje", IStatus.OK, jobCompletionTitle, null);
+    return new Status(IStatus.OK, "org.tobbaumann.jobs.builder", IStatus.OK, jobCompletionTitle, null);
   }
 }
