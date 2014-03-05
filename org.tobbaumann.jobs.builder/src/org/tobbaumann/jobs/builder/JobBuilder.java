@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     tobbaumann - initial API and implementation
  ******************************************************************************/
@@ -13,16 +13,17 @@
  */
 package org.tobbaumann.jobs.builder;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
-
-import com.google.common.base.Strings;
 
 /**
  * Builder to create and schedule jobs. For details on jobs, see
@@ -60,6 +61,8 @@ public class JobBuilder {
    * @return this
    */
   public JobBuilder title(String title) {
+    checkNotNull(title, "Given title is null");
+    checkArgument(title.trim().length() > 0, "Given title is empty");
     this.title = title;
     return this;
   }
@@ -112,7 +115,7 @@ public class JobBuilder {
    * @return this
    */
   public JobBuilder runnable(Runnable runnable) {
-    this.progressRunnable = new RunnableAdapter(title, runnable);
+    this.progressRunnable = new RunnableAdapter(title, checkNotNull(runnable, "Given runnable is null."));
     return this;
   }
 
@@ -123,7 +126,7 @@ public class JobBuilder {
    * @return this
    */
   public JobBuilder runnable(IRunnableWithProgress runnable) {
-    this.progressRunnable = runnable;
+    this.progressRunnable = checkNotNull(runnable, "Given runnable is null.");
     return this;
   }
 
@@ -183,7 +186,7 @@ public class JobBuilder {
   }
 
   /**
-   * Adds the given listener to the job to be created. Consider to give {@code JobChangeAdapter} for
+   * Adds the given listener to the job to be created. Consider to use {@code JobChangeAdapter} for
    * a more compact notation.
    *
    * @param listener the listener to add
@@ -250,28 +253,38 @@ public class JobBuilder {
    * @return the built job
    */
   public Job build() {
-    checkState(Strings.emptyToNull(title) != null, "The job title is empty or null.");
     checkState(progressRunnable != null, "The job's runnable is not set.");
-    if (Strings.isNullOrEmpty(jobCompletionTitle)) {
-      if (title.equals(DEFAULT_TITLE)) {
-        jobCompletionTitle = "Finished operation";
-      } else {
-        jobCompletionTitle = "Finished '" + title + "'.";
-      }
-    }
-    InternalJob job = new InternalJob(this);
-    return job;
+    return new InternalJob(this);
   }
 
   /**
-   * Builds the job and schedules it. This is usefull if you dont want to add job listener before
+   * Builds the job and schedules it. This is useful if you don't want to add job listener before
    * scheduling.
    *
    * @return the job
    */
-  public Job buildAndShedule() {
+  public Job buildAndSchedule() {
     Job job = build();
     job.schedule();
+    return job;
+  }
+
+  /**
+   * Builds the job and schedules this job to be run after the specified delay.
+   *
+   * If this job is currently running, it will be rescheduled with the specified delay as soon as it
+   * finishes. If this method is called multiple times while the job is running, the job will still
+   * only be rescheduled once, with the most recent delay value that was provided.
+   *
+   * Scheduling a job that is waiting or sleeping has no effect.
+   *
+   * @param delay a time delay in given time unit before the job should run
+   * @param timeUnit the time unit of the delay
+   * @return the job
+   */
+  public Job buildAndScheduleWithDelay(long delay, TimeUnit timeUnit) {
+    Job job = build();
+    job.schedule(timeUnit.toMillis(delay));
     return job;
   }
 }

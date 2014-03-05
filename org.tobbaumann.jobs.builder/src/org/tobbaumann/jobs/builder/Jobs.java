@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     tobbaumann - initial API and implementation
  ******************************************************************************/
@@ -31,11 +31,20 @@ public class Jobs {
    * <li>or <b>buildAndShedule</b> that builds, shedules and returns the job.</li>
    * </ul>
    *
-   * @return the builder instance
-   * @throws IllegalStateException thrown by build or buildAndShedule if neither runnable nor
-   *         runnableWithProgress has been set or if given title is null or empty.
+   * @return a new builder instance
    */
   public static JobBuilder builder() {
     return new JobBuilder();
+  }
+
+  /**
+   * Returns a job builder using the title and the runnable.
+   *
+   * @param title the title of the job
+   * @param runnable the runnable to run in the job
+   * @return a new builder instance
+   */
+  public static JobBuilder builder(String title, Runnable runnable) {
+    return builder().title(title).runnable(runnable);
   }
 }

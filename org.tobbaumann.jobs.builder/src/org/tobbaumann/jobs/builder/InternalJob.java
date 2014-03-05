@@ -4,13 +4,15 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     tobbaumann - initial API and implementation
  ******************************************************************************/
 package org.tobbaumann.jobs.builder;
 
 import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.base.Strings.nullToEmpty;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -31,6 +33,8 @@ import org.tobbaumann.jobs.builder.JobBuilder.JobKind;
  */
 final class InternalJob extends Job {
 
+  private static final String PLUGIN_ID = "org.tobbaumann.jobs.builder";
+
   private final Object family;
   private final IRunnableWithProgress progressRunnable;
   private final ImageDescriptor image;
@@ -43,17 +47,34 @@ final class InternalJob extends Job {
     super(builder.title);
     this.family = firstNonNull(builder.family, builder.title);
     this.progressRunnable = builder.progressRunnable;
-    setSystem(builder.kind == JobKind.SYSTEM);
+    this.image = builder.image;
+    this.userFeedback = builder.userFeedback;
+    this.jobCompletionTitle = createJobCompletionTitle(builder);
     setUser(builder.kind == JobKind.USER);
+    setSystem(builder.kind == JobKind.SYSTEM);
+    initPriority(builder);
+    initJobChangeListener(builder);
+    initSchedulingRule(builder);
+  }
+
+  private String createJobCompletionTitle(JobBuilder builder) {
+    String jct = nullToEmpty(builder.jobCompletionTitle).trim();
+    return firstNonNull(emptyToNull(jct), builder.title + ": Done.");
+  }
+
+  private void initPriority(JobBuilder builder) {
     if (builder.priority != null) {
       setPriority(builder.priority);
     }
-    this.image = builder.image;
-    this.userFeedback = builder.userFeedback;
-    this.jobCompletionTitle = builder.jobCompletionTitle;
+  }
+
+  private void initJobChangeListener(JobBuilder builder) {
     if (builder.listener != null) {
       addJobChangeListener(builder.listener);
     }
+  }
+
+  private void initSchedulingRule(JobBuilder builder) {
     if (builder.schedulingRule != null) {
       setRule(builder.schedulingRule);
     }
@@ -83,18 +104,6 @@ final class InternalJob extends Job {
     return jobResult;
   }
 
-  private void handleInterruption(InterruptedException e) {
-    jobResult = new Status(IStatus.CANCEL, "org.tobbaumann.jobs.builder", "Job has been canceled.", e);
-  }
-
-  private void handleError(Exception e) {
-    Throwable t = e;
-    if (e instanceof InvocationTargetException) {
-      t = ((InvocationTargetException) e).getTargetException();
-    }
-    jobResult = new Status(IStatus.ERROR, "org.tobbaumann.jobs.builder", "Job finished with errors.", t);
-  }
-
   private void applyImageIfAvailable() {
     if (image != null) {
       setProperty(IProgressConstants.ICON_PROPERTY, image);
@@ -120,7 +129,7 @@ final class InternalJob extends Job {
   }
 
   /**
-   * Checks if the job is currently in modal mode.
+   * Checks if the job is currently in modal mode, means the user decided to run it in background.
    */
   private boolean isModal() {
     Boolean isModal = (Boolean) getProperty(IProgressConstants.PROPERTY_IN_DIALOG);
@@ -128,6 +137,18 @@ final class InternalJob extends Job {
   }
 
   private IStatus createStatus() {
-    return new Status(IStatus.OK, "org.tobbaumann.jobs.builder", IStatus.OK, jobCompletionTitle, null);
+    return new Status(IStatus.OK, PLUGIN_ID, IStatus.OK, jobCompletionTitle, null);
+  }
+
+  private void handleInterruption(InterruptedException e) {
+    jobResult = new Status(IStatus.CANCEL, PLUGIN_ID, "Job has been canceled.", e);
+  }
+
+  private void handleError(Exception e) {
+    Throwable t = e;
+    if (e instanceof InvocationTargetException) {
+      t = ((InvocationTargetException) e).getTargetException();
+    }
+    jobResult = new Status(IStatus.ERROR, PLUGIN_ID, "Job finished with errors.", t);
   }
 }
