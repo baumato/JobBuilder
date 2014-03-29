@@ -1,12 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2014 tobbaumann.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2014 tobbaumann. All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *     tobbaumann - initial API and implementation
+ * Contributors: tobbaumann - initial API and implementation
  ******************************************************************************/
 /**
  *
@@ -115,7 +112,8 @@ public class JobBuilder {
    * @return this
    */
   public JobBuilder runnable(Runnable runnable) {
-    this.progressRunnable = new RunnableAdapter(title, checkNotNull(runnable, "Given runnable is null."));
+    this.progressRunnable =
+        new RunnableAdapter(title, checkNotNull(runnable, "Given runnable is null."));
     return this;
   }
 
@@ -130,22 +128,22 @@ public class JobBuilder {
     return this;
   }
 
-	/**
-	 * <p>
-	 * If the user does not choose to run the job in the background, then they will know when the
-	 * job has completed because the progress dialog will close. However, if they choose to run the
-	 * job in the background (by using the dialog button or the preference), they will not know when
-	 * the job has completed.
-	 * <p>
-	 * If this method is used and the progress dialog is not modal, it causes the job to remain in
-	 * the progress view. A hyperlink with the given title is created and when the user clicks on
-	 * it, the given <tt>UserFeedbackRunnable<tt> gets executed to show the results of the finished job.
-	 * This allows to not interrupt the user because the job results are not displayed immediately.
-	 *
-	 * @param jobCompletionTitle, may be null or empty to use the default text
-	 * @param userFeedback the runnable to run
-	 * @return
-	 */
+  /**
+   * <p>
+   * If the user does not choose to run the job in the background, then they will know when the job
+   * has completed because the progress dialog will close. However, if they choose to run the job in
+   * the background (by using the dialog button or the preference), they will not know when the job
+   * has completed.
+   * <p>
+   * If this method is used and the progress dialog is not modal, it causes the job to remain in the
+   * progress view. A hyperlink with the given title is created and when the user clicks on it, the
+   * given <tt>UserFeedbackRunnable<tt> gets executed to show the results of the finished job.
+   * This allows to not interrupt the user because the job results are not displayed immediately.
+   *
+   * @param jobCompletionTitle, may be null or empty to use the default text
+   * @param userFeedback the runnable to run
+   * @return
+   */
   public JobBuilder userFeedbackForFinishedJob(String jobCompletionTitle,
       UserFeedbackRunnable userFeedback) {
     this.jobCompletionTitle = jobCompletionTitle;
@@ -229,6 +227,21 @@ public class JobBuilder {
   public JobBuilder schedulingRule(ISchedulingRule rule) {
     this.schedulingRule = rule;
     return this;
+  }
+
+  /**
+   * <p>
+   * This sets a special scheduling rule using the jobs title as scheduling rule name ensuring that
+   * all jobs scheduled with this schedulingRuleName do not run concurrently but sequentially. The job title should
+   * be set beforehand.
+   * <p>
+   * Use only one of: {@link #schedulingRule(ISchedulingRule)}, {@link #runsNotConcurrently(String)}.
+   *
+   * @param schedulingRuleName the name scheduling rule
+   * @return this
+   */
+  public JobBuilder runsNotConcurrently() {
+    return schedulingRule(new NotConcurrentlyRule(title));
   }
 
   /**
