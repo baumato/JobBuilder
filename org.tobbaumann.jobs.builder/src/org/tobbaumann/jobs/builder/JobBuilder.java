@@ -206,7 +206,7 @@ public class JobBuilder {
    * @param family the family to set
    * @return this
    */
-  public JobBuilder familiy(Object family) {
+  public JobBuilder family(Object family) {
     this.family = family;
     return this;
   }
