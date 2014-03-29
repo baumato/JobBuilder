@@ -23,7 +23,7 @@
          point="org.eclipse.ui.views">
       <view
             name="Jobs"
-            class="org.tobbaumann.jobs.builder.examples.View"
+            class="org.tobbaumann.jobs.builder.examples.JobExamplesView"
             id="org.tobbaumann.jobs.builder.examples.view">
       </view>
       <view

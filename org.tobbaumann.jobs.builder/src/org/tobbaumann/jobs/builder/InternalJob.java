@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     tobbaumann - initial API and implementation
  ******************************************************************************/
@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.tobbaumann.jobs.builder.JobBuilder.JobKind;
 
@@ -39,11 +40,10 @@ final class InternalJob extends Job {
   private final IRunnableWithProgress progressRunnable;
   private final ImageDescriptor image;
   private final String jobCompletionTitle;
-  private final UserFeedbackRunnable userFeedback;
-
+  private final UserFeedback userFeedback;
   private IStatus jobResult;
 
-  public InternalJob(JobBuilder builder) {
+  InternalJob(JobBuilder builder) {
     super(builder.title);
     this.family = firstNonNull(builder.family, builder.title);
     this.progressRunnable = builder.progressRunnable;
@@ -99,7 +99,7 @@ final class InternalJob extends Job {
       handleError(e);
     } finally {
       updateErrorHandlingBehaviour();
-      applyUserFeedback();
+      performUserFeedback();
     }
     return jobResult;
   }
@@ -112,24 +112,35 @@ final class InternalJob extends Job {
 
   private void updateErrorHandlingBehaviour() {
     setProperty(IProgressConstants.NO_IMMEDIATE_ERROR_PROMPT_PROPERTY,
-        Boolean.valueOf(userFeedback != null && !isModal()));
+        Boolean.valueOf(!shouldShowErrorPromptImmediately()));
   }
 
-  private void applyUserFeedback() {
-    if (userFeedback != null && !isModal()) {
-      Action userFeedbackAction = new Action() {
-        @Override
-        public void run() {
-          userFeedback.performUserFeedback(jobResult);
-        }
-      };
-      setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
-      setProperty(IProgressConstants.ACTION_PROPERTY, userFeedbackAction);
+  private boolean shouldShowErrorPromptImmediately() {
+    return !userFeedbackAvailable() || userFeedback.performFeedbackImmediately
+        || jobRunsInBackground();
+  }
+
+  private void performUserFeedback() {
+    if (userFeedbackAvailable()) {
+      if (isModal() || userFeedback.performFeedbackImmediately) {
+        performUserFeedbackImmediately();
+      } else {
+        allowUserToGetFeedbackLater();
+      }
     }
   }
 
+  private boolean userFeedbackAvailable() {
+    return userFeedback != null;
+  }
+
+  private boolean jobRunsInBackground() {
+    return !isModal();
+  }
+
   /**
-   * Checks if the job is currently in modal mode, means the user decided to run it in background.
+   * Checks if the job is currently in modal mode, means the user decided to NOT run it in
+   * background.
    */
   private boolean isModal() {
     Boolean isModal = (Boolean) getProperty(IProgressConstants.PROPERTY_IN_DIALOG);
@@ -141,7 +152,8 @@ final class InternalJob extends Job {
   }
 
   private void handleInterruption(InterruptedException e) {
-    jobResult = new Status(IStatus.CANCEL, PLUGIN_ID, "Job has been canceled.", e);
+    String msg = String.format("Job '%s' has been canceled.", getName());
+    jobResult = new Status(IStatus.CANCEL, PLUGIN_ID, msg, e);
   }
 
   private void handleError(Exception e) {
@@ -149,6 +161,27 @@ final class InternalJob extends Job {
     if (e instanceof InvocationTargetException) {
       t = ((InvocationTargetException) e).getTargetException();
     }
-    jobResult = new Status(IStatus.ERROR, PLUGIN_ID, "Job finished with errors.", t);
+    String msg = "Job '%s' finished with error(s).";
+    jobResult = new Status(IStatus.ERROR, PLUGIN_ID, msg, t);
+  }
+
+  private void performUserFeedbackImmediately() {
+    Display.getDefault().asyncExec(new Runnable() {
+      @Override
+      public void run() {
+        userFeedback.performUserFeedback(jobResult, true);
+      }
+    });
+  }
+
+  private void allowUserToGetFeedbackLater() {
+    Action userFeedbackAction = new Action() {
+      @Override
+      public void run() {
+        userFeedback.performUserFeedback(jobResult, false);
+      }
+    };
+    setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
+    setProperty(IProgressConstants.ACTION_PROPERTY, userFeedbackAction);
   }
 }

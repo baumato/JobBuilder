@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     tobbaumann - initial API and implementation
  ******************************************************************************/
@@ -47,7 +47,7 @@ public class JobBuilder {
   Integer priority = null;
   ImageDescriptor image = null;
   String jobCompletionTitle = null;
-  UserFeedbackRunnable userFeedback = null;
+  UserFeedback userFeedback = null;
   IJobChangeListener listener = null;
   ISchedulingRule schedulingRule = null;
 
@@ -86,6 +86,8 @@ public class JobBuilder {
    * isSystemJob nor isUserJob is called, then the job is a default job. A default job will show UI
    * affordance.
    *
+   * @see #isUserJob()
+   * @see #isDefaultJob()
    * @return this
    */
   public JobBuilder isSystemJob() {
@@ -99,10 +101,26 @@ public class JobBuilder {
    * the option to be run in the background. If neither isSystemJob nor isUserJob is called, then
    * the job is a default job.
    *
+   * @see #isSystemJob()
+   * @see #isDefaultJob()
    * @return this
    */
   public JobBuilder isUserJob() {
     kind = JobKind.USER;
+    return this;
+  }
+
+  /**
+   * Defines that the job to create is a default job (not a user job and not a system job). A
+   * default job will show UI affordances when running. But in comparision to a user job no progress
+   * dialog is shown to the user.
+   *
+   * @see #isUserJob()
+   * @see #isSystemJob()
+   * @return this
+   */
+  public JobBuilder isDefaultJob() {
+    kind = JobKind.DEFAULT;
     return this;
   }
 
@@ -132,31 +150,77 @@ public class JobBuilder {
   }
 
   /**
+   * This does the same as {@link #givesUserFeedback(String, UserFeedbackRunnable)} but with a
+   * default job completion title.
+   *
+   * @param userFeedback the user feedback runnable to run (in UI thread)
+   * @return this
+   */
+  public JobBuilder givesUserFeedback(UserFeedbackRunnable userFeedback) {
+    return givesUserFeedback(null, userFeedback);
+  }
+
+  /**
    * <p>
    * If the user does not choose to run the job in the background, then they will know when the job
-   * has completed because the progress dialog will close. However, if they choose to run the job in
-   * the background (by using the dialog button or the preference), they will not know when the job
-   * has completed.
+   * has completed because the progress dialog will close (and this feedback gets executed).
+   * However, if they choose to run the job in the background (by using the dialog button or the
+   * preference), they will not know when the job has completed.
    * <p>
    * If this method is used and the progress dialog is not modal, it causes the job to remain in the
    * progress view. A hyperlink with the given title is created and when the user clicks on it, the
-   * given <tt>UserFeedbackRunnable<tt> gets executed to show the results of the finished job.
+   * given
+   * <tt>UserFeedbackRunnable<tt> gets executed in the UI thread to show the results of the finished job.
    * This allows to not interrupt the user because the job results are not displayed immediately.
+   * For an immediate feedback use {@link #givesImmediateUserFeedback(String, UserFeedbackRunnable)}
    *
    * @param jobCompletionTitle, may be null or empty to use the default text
-   * @param userFeedback the runnable to run
-   * @return
+   * @param userFeedback the runnable to run (in UI thread)
+   * @return this
    */
-  public JobBuilder userFeedbackForFinishedJob(String jobCompletionTitle,
+  public JobBuilder givesUserFeedback(String jobCompletionTitle,
       UserFeedbackRunnable userFeedback) {
     this.jobCompletionTitle = jobCompletionTitle;
-    this.userFeedback = checkNotNull(userFeedback, "The given user feedback runnable is null");
+    this.userFeedback =
+        new UserFeedback(checkNotNull(userFeedback, "The given user feedback runnable is null."),
+            false);
+    return this;
+  }
+
+  /**
+   * This method does the same as {@link #givesImmediateUserFeedback(String, UserFeedbackRunnable)}
+   * but a default job completion title.
+   *
+   * @param userFeedback the runnable to run (in UI thread)
+   * @return this
+   */
+  public JobBuilder givesImmediateUserFeedback(UserFeedbackRunnable userFeedback) {
+    return givesImmediateUserFeedback(null, userFeedback);
+  }
+
+  /**
+   * The given feedback gets given to the user as soon as the job is finished. It is not taken into
+   * account whether the job run in the background. The feedback runs in the UI thread.
+   *
+   * @see #givesUserFeedback(String, UserFeedbackRunnable)
+   * @param jobCompletionTitle, may be null or empty to use the default text
+   * @param userFeedback the runnable to run
+   * @return this
+   */
+  public JobBuilder givesImmediateUserFeedback(String jobCompletionTitle,
+      UserFeedbackRunnable userFeedback) {
+    this.jobCompletionTitle = jobCompletionTitle;
+    this.userFeedback =
+        new UserFeedback(checkNotNull(userFeedback, "The given user feedback runnable is null."),
+            true);
     return this;
   }
 
   /**
    * Sets Job.SHORT as priority which gives the job a higher priority than the default Job.LONG.
-   *
+   * 
+   * @see #lowPriority()
+   * @see #lowestPriority()
    * @return this.
    */
   public JobBuilder highPriority() {
@@ -167,6 +231,8 @@ public class JobBuilder {
   /**
    * Sets Job.LONG as priority which gives the job a low priority. This is the default.
    *
+   * @see #highPriority()
+   * @see #lowestPriority()
    * @return this
    */
   public JobBuilder lowPriority() {
@@ -178,6 +244,8 @@ public class JobBuilder {
    * Sets Job.BUILD as priority. Build jobs run generally after all other background jobs are
    * completed.
    *
+   * @see #highPriority()
+   * @see #lowPriority()
    * @return this
    */
   public JobBuilder lowestPriority() {

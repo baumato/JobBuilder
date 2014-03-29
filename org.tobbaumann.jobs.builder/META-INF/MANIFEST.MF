@@ -12,5 +12,6 @@ Import-Package: com.google.common.base,
  org.eclipse.jface.operation,
  org.eclipse.jface.resource,
  org.eclipse.swt.events,
+ org.eclipse.swt.widgets,
  org.eclipse.ui.progress
 Export-Package: org.tobbaumann.jobs.builder

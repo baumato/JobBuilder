@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     tobbaumann - initial API and implementation
  ******************************************************************************/
@@ -23,21 +23,16 @@ import org.eclipse.core.runtime.IStatus;
 public interface UserFeedbackRunnable {
 
   /**
-   * <p>
-   * If the user does not choose to run the job in the background, then they will know when the job
-   * has completed because the progress dialog will close. However, if they choose to run the job in
-   * the background (by using the dialog button or the preference), they will not know when the job
-   * has completed.
-   * <p>
-   * If a <tt>UserFeedbackRunnable</tt> is used, it causes the job to remain in the progress view. A
-   * hyperlink with the given title is created and when the user clicks on it, the given
-   * UserFeedbackRunnable gets executed to show the results of the finished job. This allows to not
-   * interrupt the user because the job results are not not displayed immediately. The argument
-   * <tt>jobResult</tt> allows to perform a different behaviour in error cases:
-   * <tt>jobResult.getSeverity() == IStatus.ERROR</tt>
+   * Gives feedback to the user. Runs in the UI thread.
    *
-   * @param jobResult
+   * @see JobBuilder#givesImmediateUserFeedback(String, UserFeedbackRunnable)
+   * @see JobBuilder#givesUserFeedback(String, UserFeedbackRunnable)
+   *
+   * @param jobResult the result of the job
+   * @param immediateFeedback <code>true</code> if the feedback is given directly after job
+   *        completion, false otherwise (e.g. user decided to run the job in the background and
+   *        reviews the job result in the progress view later on.)
    */
-  public void performUserFeedback(IStatus jobResult);
+  public void performUserFeedback(IStatus jobResult, boolean immediateFeedback);
 
 }

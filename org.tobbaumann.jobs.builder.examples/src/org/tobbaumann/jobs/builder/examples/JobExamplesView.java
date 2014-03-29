@@ -28,7 +28,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.tobbaumann.jobs.builder.Jobs;
 import org.tobbaumann.jobs.builder.UserFeedbackRunnable;
 
-public class View extends ViewPart {
+public class JobExamplesView extends ViewPart {
   public static final String ID = "org.tobbaumann.jobs.builder.examples.view";
 
   private static final int WIDTH = 350;
@@ -39,6 +39,7 @@ public class View extends ViewPart {
 
   @Override
   public void createPartControl(Composite parent) {
+    System.out.println(Thread.currentThread());
     this.parent = parent;
     this.shell = parent.getShell();
     parent.setLayout(new FillLayout(SWT.VERTICAL));
@@ -54,6 +55,8 @@ public class View extends ViewPart {
     userJob();
     userJobWithListener();
     userJobWithFeedback();
+    defaultJobWithFeedback();
+    defaultJobWithImmediateFeedback();
     imageJob();
     systemJob();
     compactSystemJobWithTitle();
@@ -196,7 +199,7 @@ public class View extends ViewPart {
     btnButton.setText(title);
     HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + ".title(title)\n" + ".isUserJob()\n"
         + ".runnable(new TestRunnable())\n"
-        + ".userFeedbackForFinishedJob(title + \":Done\", new UserFeedbackRunnable() {\n"
+        + ".givesUserFeedback(title + \":Done\", new UserFeedbackRunnable() {\n"
         + "  public void performUserFeedback(IStatus jobResult) {\n"
         + "    MessageDialog.openInformation(shell, title, \"Done\");\n" + "  }\n"
         + "}).buildAndSchedule();", WIDTH + 250, HEIGHT + 50);
@@ -204,15 +207,66 @@ public class View extends ViewPart {
       @Override
       public void widgetSelected(SelectionEvent e) {
         Jobs.builder().title(title).isUserJob().runnable(new TestRunnable())
-            .userFeedbackForFinishedJob(title + ":Done", new UserFeedbackRunnable() {
+            .givesUserFeedback(title + ":Done", new UserFeedbackRunnable() {
               @Override
-              public void performUserFeedback(IStatus jobResult) {
+              public void performUserFeedback(IStatus jobResult, boolean immediateFeedback) {
+                System.out.println(Thread.currentThread());
                 MessageDialog.openInformation(shell, title, "Done");
               }
             }).buildAndSchedule();
       }
     });
   }
+
+  private void defaultJobWithFeedback() {
+    Button btnButton = new Button(parent, SWT.PUSH);
+    final String title = "default job with feedback";
+    btnButton.setText(title);
+    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + ".title(title)\n"
+        + ".runnable(new TestRunnable())\n"
+        + ".givesUserFeedback(title + \":Done\", new UserFeedbackRunnable() {\n"
+        + "  public void performUserFeedback(IStatus jobResult) {\n"
+        + "    MessageDialog.openInformation(shell, title, \"Done\");\n" + "  }\n"
+        + "}).buildAndSchedule();", WIDTH + 250, HEIGHT + 50);
+    btnButton.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        Jobs.builder().title(title).runnable(new TestRunnable())
+            .givesUserFeedback(title + ":Done", new UserFeedbackRunnable() {
+              @Override
+              public void performUserFeedback(IStatus jobResult, boolean immediateFeedback) {
+                System.out.println(Thread.currentThread());
+                MessageDialog.openInformation(shell, title, "Done");
+              }
+            }).buildAndSchedule();
+      }
+    });
+  }
+
+  private void defaultJobWithImmediateFeedback() {
+    Button btnButton = new Button(parent, SWT.PUSH);
+    final String title = "default job with immediate feedback";
+    btnButton.setText(title);
+    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + ".title(title)\n"
+        + ".runnable(new TestRunnable())\n"
+        + ".givesImmediateUserFeedback(new UserFeedbackRunnable() {\n"
+        + "  public void performUserFeedback(IStatus jobResult) {\n"
+        + "    MessageDialog.openInformation(shell, title, \"Done\");\n" + "  }\n"
+        + "}).buildAndSchedule();", WIDTH + 250, HEIGHT + 50);
+    btnButton.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        Jobs.builder().title(title).runnable(new TestRunnable())
+            .givesImmediateUserFeedback(new UserFeedbackRunnable() {
+              @Override
+              public void performUserFeedback(IStatus jobResult, boolean immediateFeedback) {
+                MessageDialog.openInformation(shell, jobResult.getMessage(), "Done");
+              }
+            }).buildAndSchedule();
+      }
+    });
+  }
+
 
   private void imageJob() {
     Button btnButton = new Button(parent, SWT.PUSH);
