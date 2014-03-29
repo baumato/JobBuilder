@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.tobbaumann.jobs.builder.examples;
 
+import java.util.concurrent.TimeUnit;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -56,13 +58,15 @@ public class View extends ViewPart {
     systemJob();
     compactSystemJobWithTitle();
     compactSystemJobWithDefaultTitle();
+    scheduledJob();
   }
 
   private void shortestDefinedJob() {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "shortest defined job";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder(title, new TestRunnable())\n  .buildAndSchedule();", WIDTH, HEIGHT);
+    HtmlToolTip.applyWithPre(btnButton,
+        "Jobs.builder(title, new TestRunnable())\n  .buildAndSchedule();", WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -75,7 +79,11 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "default job";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n  .title(title)\n  .runnable(new TestRunnable(6))\n  .buildAndSchedule();", WIDTH, HEIGHT);
+    HtmlToolTip
+        .applyWithPre(
+            btnButton,
+            "Jobs.builder()\n  .title(title)\n  .runnable(new TestRunnable(6))\n  .buildAndSchedule();",
+            WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -88,7 +96,11 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "hight priority job";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n  .title(title)\n  .highPriority()\n  .runnable(new TestRunnable())\n  .buildAndSchedule();", WIDTH, HEIGHT);
+    HtmlToolTip
+        .applyWithPre(
+            btnButton,
+            "Jobs.builder()\n  .title(title)\n  .highPriority()\n  .runnable(new TestRunnable())\n  .buildAndSchedule();",
+            WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -101,7 +113,11 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "lowest priority job";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n  .title(title)\n  .lowestPriority()\n  .runnable(new TestRunnable(8))\n  .buildAndSchedule();", WIDTH, HEIGHT);
+    HtmlToolTip
+        .applyWithPre(
+            btnButton,
+            "Jobs.builder()\n  .title(title)\n  .lowestPriority()\n  .runnable(new TestRunnable(8))\n  .buildAndSchedule();",
+            WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -115,11 +131,16 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "not concurrently job";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n  .title(title)\n  .runsNotConcurrently()\n  .runnable(new TestRunnable())\n  .buildAndSchedule();", WIDTH, HEIGHT);
+    HtmlToolTip
+        .applyWithPre(
+            btnButton,
+            "Jobs.builder()\n  .title(title)\n  .runsNotConcurrently()\n  .runnable(new TestRunnable())\n  .buildAndSchedule();",
+            WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
-        Jobs.builder().title(title).runsNotConcurrently().runnable(new TestRunnable()).buildAndSchedule();
+        Jobs.builder().title(title).runsNotConcurrently().runnable(new TestRunnable())
+            .buildAndSchedule();
       }
     });
   }
@@ -128,7 +149,11 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "user job";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n  .title(title)\n  .isUserJob()\n  .runnable(new TestRunnable())\n  .buildAndSchedule();", WIDTH, HEIGHT);
+    HtmlToolTip
+        .applyWithPre(
+            btnButton,
+            "Jobs.builder()\n  .title(title)\n  .isUserJob()\n  .runnable(new TestRunnable())\n  .buildAndSchedule();",
+            WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -142,18 +167,13 @@ public class View extends ViewPart {
     final String title = "user job with listener";
     btnButton.setText(title);
     String toolTipText =
-        "Jobs.builder()\n" +
-        "  .title(title)\n" +
-        "  .isUserJob()\n" +
-        "  .runnable(new TestRunnable())\n" +
-        "  .addJobChangeListener(new JobChangeAdapter() {\n" +
-        "    public void done(IJobChangeEvent event) {\n" +
-        "      Jobs.builder()\n" +
-        "        .title(title + \" is done. This is a follow up job.\")\n" +
-        "        .runnable(new TestRunnable())\n" +
-        "        .buildAndSchedule();\n" +
-        "    }\n" +
-        "  }).buildAndSchedule();";
+        "Jobs.builder()\n" + "  .title(title)\n" + "  .isUserJob()\n"
+            + "  .runnable(new TestRunnable())\n"
+            + "  .addJobChangeListener(new JobChangeAdapter() {\n"
+            + "    public void done(IJobChangeEvent event) {\n" + "      Jobs.builder()\n"
+            + "        .title(title + \" is done. This is a follow up job.\")\n"
+            + "        .runnable(new TestRunnable())\n" + "        .buildAndSchedule();\n"
+            + "    }\n" + "  }).buildAndSchedule();";
     HtmlToolTip.applyWithPre(btnButton, toolTipText, 600, 200);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
@@ -174,16 +194,12 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "user job with feedback";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(btnButton,
-            "Jobs.builder()\n"
-                + ".title(title)\n"
-                + ".isUserJob()\n"
-                + ".runnable(new TestRunnable())\n"
-                + ".userFeedbackForFinishedJob(title + \":Done\", new UserFeedbackRunnable() {\n"
-                + "  public void performUserFeedback(IStatus jobResult) {\n"
-                + "    MessageDialog.openInformation(shell, title, \"Done\");\n"
-                + "  }\n"
-                + "}).buildAndSchedule();", WIDTH+250, HEIGHT+50);
+    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + ".title(title)\n" + ".isUserJob()\n"
+        + ".runnable(new TestRunnable())\n"
+        + ".userFeedbackForFinishedJob(title + \":Done\", new UserFeedbackRunnable() {\n"
+        + "  public void performUserFeedback(IStatus jobResult) {\n"
+        + "    MessageDialog.openInformation(shell, title, \"Done\");\n" + "  }\n"
+        + "}).buildAndSchedule();", WIDTH + 250, HEIGHT + 50);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -202,14 +218,9 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "job with image";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(
-        btnButton,
-        "Jobs.builder()\n"
-        + ".title(title)\n"
-        + ".isUserJob()\n"
-        + ".image(getImage())\n"
-        + ".runnable(new TestRunnable())\n"
-        + ".buildAndSchedule();", WIDTH, HEIGHT);
+    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + ".title(title)\n" + ".isUserJob()\n"
+        + ".image(getImage())\n" + ".runnable(new TestRunnable())\n" + ".buildAndSchedule();",
+        WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -223,13 +234,8 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "system job";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(
-        btnButton,
-        "Jobs.builder()\n"
-        + "  .title(title)\n"
-        + "  .isSystemJob()\n"
-        + "  .runnable(new TestRunnable())\n"
-        + "  .buildAndSchedule();",
+    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + "  .title(title)\n"
+        + "  .isSystemJob()\n" + "  .runnable(new TestRunnable())\n" + "  .buildAndSchedule();",
         WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
@@ -243,12 +249,8 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "compact system job with title";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(
-        btnButton,
-        "Jobs.builder(title, new TestRunnable())\n"
-        + "  .isSystemJob()\n"
-        + "  .buildAndSchedule();",
-        WIDTH, HEIGHT);
+    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder(title, new TestRunnable())\n"
+        + "  .isSystemJob()\n" + "  .buildAndSchedule();", WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -261,17 +263,28 @@ public class View extends ViewPart {
     Button btnButton = new Button(parent, SWT.PUSH);
     final String title = "compact system job using default title";
     btnButton.setText(title);
-    HtmlToolTip.applyWithPre(
-        btnButton,
-        "Jobs.builder()\n"
-        + "  .runnable(new TestRunnable())\n"
-        + "  .isSystemJob()\n"
-        + "  .buildAndSchedule();",
-        WIDTH, HEIGHT);
+    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + "  .runnable(new TestRunnable())\n"
+        + "  .isSystemJob()\n" + "  .buildAndSchedule();", WIDTH, HEIGHT);
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
         Jobs.builder().runnable(new TestRunnable()).isSystemJob().buildAndSchedule();
+      }
+    });
+  }
+
+  private void scheduledJob() {
+    Button btnButton = new Button(parent, SWT.PUSH);
+    final String title = "scheduled job";
+    btnButton.setText(title);
+    HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + "  .title(title)\n"
+        + "  .isSystemJob()\n" + "  .runnable(new TestRunnable())\n"
+        + "  .buildAndScheduleWithDelay(3, TimeUnit.SECONDS);", WIDTH, HEIGHT);
+    btnButton.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        Jobs.builder().title("scheduled job").runnable(new TestRunnable())
+            .buildAndScheduleWithDelay(3, TimeUnit.SECONDS);
       }
     });
   }
