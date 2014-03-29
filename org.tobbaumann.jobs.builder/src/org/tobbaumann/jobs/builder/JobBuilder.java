@@ -198,7 +198,7 @@ public class JobBuilder {
 
   /**
    * <p>
-   * Sets a family to the job.
+   * Sets a family to the job. If none gets set, then the job title is used as family.
    * <p>
    * The Eclipse platform provides a job manager that applies several job operations to an entire
    * family. These operations include cancel, find, join, sleep, and wakeUp.
