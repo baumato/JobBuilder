@@ -130,23 +130,22 @@ public class JobBuilder {
     return this;
   }
 
-  /**
-   * <p>
-   * If the user does not choose to run the job in the background, then they will know when the job
-   * has completed because the progress dialog will close. However, if they choose to run the job in
-   * the background (by using the dialog button or the preference), they will not know when the job
-   * has completed.
-   * <p>
-   * If this method is used and the progress dialog is not model, it causes the job to remain in the
-   * progress view. A hyperlink with the given title is created and when the user clicks on it, the
-   * given
-   * <tt>UserFeedbackRunnable<tt> gets executed to show the results of the finished job. This allows to
-   * not interrupt the user because the job results are not not displayed immediately.
-   *
-   * @param jobCompletionTitle, may be null or empty to use the default text
-   * @param userFeedback the runnable to run
-   * @return
-   */
+	/**
+	 * <p>
+	 * If the user does not choose to run the job in the background, then they will know when the
+	 * job has completed because the progress dialog will close. However, if they choose to run the
+	 * job in the background (by using the dialog button or the preference), they will not know when
+	 * the job has completed.
+	 * <p>
+	 * If this method is used and the progress dialog is not modal, it causes the job to remain in
+	 * the progress view. A hyperlink with the given title is created and when the user clicks on
+	 * it, the given <tt>UserFeedbackRunnable<tt> gets executed to show the results of the finished job.
+	 * This allows to not interrupt the user because the job results are not displayed immediately.
+	 *
+	 * @param jobCompletionTitle, may be null or empty to use the default text
+	 * @param userFeedback the runnable to run
+	 * @return
+	 */
   public JobBuilder userFeedbackForFinishedJob(String jobCompletionTitle,
       UserFeedbackRunnable userFeedback) {
     this.jobCompletionTitle = jobCompletionTitle;
