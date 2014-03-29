@@ -37,6 +37,10 @@ public class View extends ViewPart {
     this.shell = parent.getShell();
     this.display = parent.getDisplay();
     parent.setLayout(new FillLayout(SWT.VERTICAL));
+    addJobButtons();
+  }
+
+  private void addJobButtons() {
     shortestDefinedJob();
     defaultJob();
     highPriorityJob();
