@@ -232,8 +232,8 @@ public class JobBuilder {
   /**
    * <p>
    * This sets a special scheduling rule using the jobs title as scheduling rule name ensuring that
-   * all jobs scheduled with this schedulingRuleName do not run concurrently but sequentially. The job title should
-   * be set beforehand.
+   * all jobs scheduled with this schedulingRuleName do not run concurrently but sequentially. The
+   * job title should be set beforehand.
    * <p>
    * Use only one of: {@link #schedulingRule(ISchedulingRule)}, {@link #runsNotConcurrently(String)}.
    *
