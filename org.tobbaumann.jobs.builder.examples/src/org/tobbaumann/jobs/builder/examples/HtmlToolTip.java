@@ -17,16 +17,12 @@ public class HtmlToolTip extends ToolTip {
   private final int width;
   private final int height;
 
-  static void applyPlainText(Control control, String toolTipText) {
-    new HtmlToolTip(control, toolTipText, SWT.DEFAULT, SWT.DEFAULT);
-  }
-
   static void apply(Control control, String toolTipText, int width, int height) {
     new HtmlToolTip(control, toolTipText, width, height);
   }
 
   static void applyWithPre(Control control, String toolTipText, int width, int height) {
-    new HtmlToolTip(control, "<pre font=\"Courier New\">"+toolTipText+"</pre>", width, height);
+    apply(control, "<pre font=\"Courier New\">"+toolTipText+"</pre>", width, height);
   }
 
   private HtmlToolTip(Control control, String toolTipText, int width, int height) {
