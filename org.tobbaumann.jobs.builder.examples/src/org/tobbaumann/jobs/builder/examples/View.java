@@ -2,7 +2,7 @@
  * Copyright (c) 2014 tobbaumann. All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0 which accompanies this
  * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors: tobbaumann - initial API and implementation
  ******************************************************************************/
 package org.tobbaumann.jobs.builder.examples;
@@ -107,7 +107,7 @@ public class View extends ViewPart {
     btnButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
-        Jobs.builder().title(title).runsNotConcurrently(title).runnable(new TestRunnable())
+        Jobs.builder().title(title).runsNotConcurrently().runnable(new TestRunnable())
             .buildAndSchedule();
       }
     });
