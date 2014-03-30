@@ -17,7 +17,7 @@ class UserFeedback {
   UserFeedbackRunnable runnable;
   boolean performFeedbackImmediately;
 
-  public UserFeedback(UserFeedbackRunnable runnable, boolean performFeedbackImmedtiately) {
+  UserFeedback(UserFeedbackRunnable runnable, boolean performFeedbackImmedtiately) {
     this.runnable = runnable;
     this.performFeedbackImmediately = performFeedbackImmedtiately;
   }

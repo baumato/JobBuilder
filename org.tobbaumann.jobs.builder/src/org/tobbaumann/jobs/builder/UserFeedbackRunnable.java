@@ -25,8 +25,8 @@ public interface UserFeedbackRunnable {
   /**
    * Gives feedback to the user. Runs in the UI thread.
    *
-   * @see JobBuilder#givesImmediateUserFeedback(String, UserFeedbackRunnable)
-   * @see JobBuilder#givesUserFeedback(String, UserFeedbackRunnable)
+   * @see JobBuilder#immediateUserFeedback(String, UserFeedbackRunnable)
+   * @see JobBuilder#userFeedback(String, UserFeedbackRunnable)
    *
    * @param jobResult the result of the job
    * @param immediateFeedback <code>true</code> if the feedback is given directly after job

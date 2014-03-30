@@ -150,14 +150,14 @@ public class JobBuilder {
   }
 
   /**
-   * This does the same as {@link #givesUserFeedback(String, UserFeedbackRunnable)} but with a
+   * This does the same as {@link #userFeedback(String, UserFeedbackRunnable)} but with a
    * default job completion title.
    *
    * @param userFeedback the user feedback runnable to run (in UI thread)
    * @return this
    */
-  public JobBuilder givesUserFeedback(UserFeedbackRunnable userFeedback) {
-    return givesUserFeedback(null, userFeedback);
+  public JobBuilder userFeedback(UserFeedbackRunnable userFeedback) {
+    return userFeedback(null, userFeedback);
   }
 
   /**
@@ -172,14 +172,13 @@ public class JobBuilder {
    * given
    * <tt>UserFeedbackRunnable<tt> gets executed in the UI thread to show the results of the finished job.
    * This allows to not interrupt the user because the job results are not displayed immediately.
-   * For an immediate feedback use {@link #givesImmediateUserFeedback(String, UserFeedbackRunnable)}
+   * For an immediate feedback use {@link #immediateUserFeedback(String, UserFeedbackRunnable)}
    *
    * @param jobCompletionTitle, may be null or empty to use the default text
    * @param userFeedback the runnable to run (in UI thread)
    * @return this
    */
-  public JobBuilder givesUserFeedback(String jobCompletionTitle,
-      UserFeedbackRunnable userFeedback) {
+  public JobBuilder userFeedback(String jobCompletionTitle, UserFeedbackRunnable userFeedback) {
     this.jobCompletionTitle = jobCompletionTitle;
     this.userFeedback =
         new UserFeedback(checkNotNull(userFeedback, "The given user feedback runnable is null."),
@@ -188,26 +187,26 @@ public class JobBuilder {
   }
 
   /**
-   * This method does the same as {@link #givesImmediateUserFeedback(String, UserFeedbackRunnable)}
+   * This method does the same as {@link #immediateUserFeedback(String, UserFeedbackRunnable)}
    * but a default job completion title.
    *
    * @param userFeedback the runnable to run (in UI thread)
    * @return this
    */
-  public JobBuilder givesImmediateUserFeedback(UserFeedbackRunnable userFeedback) {
-    return givesImmediateUserFeedback(null, userFeedback);
+  public JobBuilder immediateUserFeedback(UserFeedbackRunnable userFeedback) {
+    return immediateUserFeedback(null, userFeedback);
   }
 
   /**
    * The given feedback gets given to the user as soon as the job is finished. It is not taken into
    * account whether the job run in the background. The feedback runs in the UI thread.
    *
-   * @see #givesUserFeedback(String, UserFeedbackRunnable)
+   * @see #userFeedback(String, UserFeedbackRunnable)
    * @param jobCompletionTitle, may be null or empty to use the default text
    * @param userFeedback the runnable to run
    * @return this
    */
-  public JobBuilder givesImmediateUserFeedback(String jobCompletionTitle,
+  public JobBuilder immediateUserFeedback(String jobCompletionTitle,
       UserFeedbackRunnable userFeedback) {
     this.jobCompletionTitle = jobCompletionTitle;
     this.userFeedback =
@@ -218,7 +217,7 @@ public class JobBuilder {
 
   /**
    * Sets Job.SHORT as priority which gives the job a higher priority than the default Job.LONG.
-   * 
+   *
    * @see #lowPriority()
    * @see #lowestPriority()
    * @return this.

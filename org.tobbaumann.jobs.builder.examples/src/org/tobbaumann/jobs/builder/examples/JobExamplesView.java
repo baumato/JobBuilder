@@ -207,7 +207,7 @@ public class JobExamplesView extends ViewPart {
       @Override
       public void widgetSelected(SelectionEvent e) {
         Jobs.builder().title(title).isUserJob().runnable(new TestRunnable())
-            .givesUserFeedback(title + ":Done", new UserFeedbackRunnable() {
+            .userFeedback(title + ":Done", new UserFeedbackRunnable() {
               @Override
               public void performUserFeedback(IStatus jobResult, boolean immediateFeedback) {
                 System.out.println(Thread.currentThread());
@@ -232,7 +232,7 @@ public class JobExamplesView extends ViewPart {
       @Override
       public void widgetSelected(SelectionEvent e) {
         Jobs.builder().title(title).runnable(new TestRunnable())
-            .givesUserFeedback(title + ":Done", new UserFeedbackRunnable() {
+            .userFeedback(title + ":Done", new UserFeedbackRunnable() {
               @Override
               public void performUserFeedback(IStatus jobResult, boolean immediateFeedback) {
                 System.out.println(Thread.currentThread());
@@ -257,7 +257,7 @@ public class JobExamplesView extends ViewPart {
       @Override
       public void widgetSelected(SelectionEvent e) {
         Jobs.builder().title(title).runnable(new TestRunnable())
-            .givesImmediateUserFeedback(new UserFeedbackRunnable() {
+            .immediateUserFeedback(new UserFeedbackRunnable() {
               @Override
               public void performUserFeedback(IStatus jobResult, boolean immediateFeedback) {
                 MessageDialog.openInformation(shell, jobResult.getMessage(), "Done");
