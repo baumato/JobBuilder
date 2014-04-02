@@ -27,25 +27,22 @@ Job myUserJob = Jobs.builder()
 				InterruptedException {
 			doImportantTask(monitor);
 		}
-	}).build();
-// add listener to job if you like
-// myUserJob.addJobChangeListener(...)
+	}).build(); // build the job and do something else with it
 myUserJob.schedule();
 ```
 
 ### Build and schedule job with user feedback
 
-If the user does not choose to run the job in the background, then they will know
-when the job has completed because the progress dialog will close.
-However, if they choose to run the job in the background
-(by using the dialog button or the preference), they will not know when
-the job is finished.
+If the user does not choose to run the job in the background, then they will know when the job
+has completed because the progress dialog will close (and the given feedback gets executed).
+However, if they choose to run the job in the background (by using the dialog button or the
+preference), they will not know when the job has completed.
 
-If the userFeedbackForFinishedJob is used and the progress dialog is not modal,
-it causes the job to remain in the progress view. A hyperlink with the given title
-is created and when the user clicks on it, the given UserFeedbackRunnable gets
-executed to show the results of the finished job. This allows to not interrupt the
-user because the job results are not not displayed immediately.
+If the method userFeedback is used and the progress dialog is not modal, it causes the job to remain in the
+progress view. A hyperlink with the given title is created and when the user clicks on it, the
+given UserFeedbackRunnable gets executed in the UI thread to show the results of the finished job.
+This allows to not interrupt the user because the job results are not displayed immediately.
+A feedback can also be given immediately using the method immediateUserFeedback.
 
 ```java
 Jobs.builder()
@@ -56,9 +53,9 @@ Jobs.builder()
 				InterruptedException {
 			doImportantTask(monitor);
 		}
-	}).userFeedbackForFinishedJob("Long running progress completed", new UserFeedbackRunnable() {
+	}).userFeedback("Long running progress completed", new UserFeedbackRunnable() {
 		@Override
-		public void performUserFeedback(IStatus jobResult) {
+		public void performUserFeedback(IStatus jobResult, boolean immediateFeedback) {
 			if (jobResult.getSeverity() == IStatus.ERROR) {
 				showAppropriateError(jobResult);
 			} else {
