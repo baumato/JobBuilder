@@ -199,7 +199,7 @@ public class JobExamplesView extends ViewPart {
     btnButton.setText(title);
     HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + ".title(title)\n" + ".isUserJob()\n"
         + ".runnable(new TestRunnable())\n"
-        + ".givesUserFeedback(title + \":Done\", new UserFeedbackRunnable() {\n"
+        + ".userFeedback(title + \":Done\", new UserFeedbackRunnable() {\n"
         + "  public void performUserFeedback(IStatus jobResult) {\n"
         + "    MessageDialog.openInformation(shell, title, \"Done\");\n" + "  }\n"
         + "}).buildAndSchedule();", WIDTH + 250, HEIGHT + 50);
@@ -224,7 +224,7 @@ public class JobExamplesView extends ViewPart {
     btnButton.setText(title);
     HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + ".title(title)\n"
         + ".runnable(new TestRunnable())\n"
-        + ".givesUserFeedback(title + \":Done\", new UserFeedbackRunnable() {\n"
+        + ".userFeedback(title + \":Done\", new UserFeedbackRunnable() {\n"
         + "  public void performUserFeedback(IStatus jobResult) {\n"
         + "    MessageDialog.openInformation(shell, title, \"Done\");\n" + "  }\n"
         + "}).buildAndSchedule();", WIDTH + 250, HEIGHT + 50);
