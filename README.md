@@ -19,7 +19,7 @@ Jobs.builder()
 
 ### Build and schedule a user job with a IRunnableWithProgress
 ```java
-Job myUserJob = Jobs.builder()
+Jobs.builder()
 	.title("Very important task triggered by user").isUserJob()
 	.runnable(new IRunnableWithProgress() {
 		@Override
@@ -27,8 +27,21 @@ Job myUserJob = Jobs.builder()
 				InterruptedException {
 			doImportantTask(monitor);
 		}
-	}).build(); // build the job and do something else with it
-myUserJob.schedule();
+	}).buildAndSchedule();
+```
+
+### Build and schedule a job that runs not concurrently
+
+Creates a job that runs not concurrently and that reports all changes to the given jobChangeListener.
+
+```java
+Job myJob = Jobs.builder()
+    .title(title)
+    .addJobChangeListener(jobChangeListener)
+    .runsNotConcurrently()
+    .runnable(theRunnable)
+    .build();
+myJob.schedule();
 ```
 
 ### Build and schedule job with user feedback
