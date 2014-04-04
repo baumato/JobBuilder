@@ -77,3 +77,7 @@ Jobs.builder()
 		}
 	}).buildAndShedule();
 ```
+
+## Example Application
+
+![JobBuilder example application](./JobBuilder_ExampleApplication.png)
