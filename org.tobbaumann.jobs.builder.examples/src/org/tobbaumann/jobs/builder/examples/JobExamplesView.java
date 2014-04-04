@@ -61,7 +61,7 @@ public class JobExamplesView extends ViewPart {
     systemJob();
     compactSystemJobWithTitle();
     compactSystemJobWithDefaultTitle();
-    scheduledJob();
+    scheduledWithDelayJob();
   }
 
   private void shortestDefinedJob() {
@@ -327,9 +327,9 @@ public class JobExamplesView extends ViewPart {
     });
   }
 
-  private void scheduledJob() {
+  private void scheduledWithDelayJob() {
     Button btnButton = new Button(parent, SWT.PUSH);
-    final String title = "scheduled job";
+    final String title = "schedule job with delay";
     btnButton.setText(title);
     HtmlToolTip.applyWithPre(btnButton, "Jobs.builder()\n" + "  .title(title)\n"
         + "  .isSystemJob()\n" + "  .runnable(new TestRunnable())\n"
