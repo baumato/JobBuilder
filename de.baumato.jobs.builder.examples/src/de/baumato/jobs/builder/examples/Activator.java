@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Tobias Baumann - initial API and implementation
  ******************************************************************************/
@@ -16,7 +16,7 @@ import org.osgi.framework.BundleContext;
 
 public class Activator extends AbstractUIPlugin {
 
-  private static final String PLUGIN_ID = "org.tobbaumann.jobs.builder.examples";
+  private static final String PLUGIN_ID = "de.baumato.jobs.builder.examples";
 
   private static Activator plugin;
 

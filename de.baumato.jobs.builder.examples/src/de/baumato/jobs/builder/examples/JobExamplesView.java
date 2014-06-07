@@ -30,7 +30,7 @@ import de.baumato.jobs.builder.Jobs;
 import de.baumato.jobs.builder.UserFeedbackRunnable;
 
 public class JobExamplesView extends ViewPart {
-  public static final String ID = "org.tobbaumann.jobs.builder.examples.view";
+  public static final String ID = "de.baumato.jobs.builder.examples.view";
 
   private static final int WIDTH = 350;
   private static final int HEIGHT = 110;

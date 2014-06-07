@@ -35,7 +35,7 @@ import de.baumato.jobs.builder.JobBuilder.JobKind;
  */
 final class InternalJob extends Job {
 
-  private static final String PLUGIN_ID = "org.tobbaumann.jobs.builder";
+  private static final String PLUGIN_ID = "de.baumato.jobs.builder";
 
   private final Object family;
   private final IRunnableWithProgress progressRunnable;

@@ -16,7 +16,7 @@
       <perspective
             name="Perspective"
             class="de.baumato.jobs.builder.examples.Perspective"
-            id="org.tobbaumann.jobs.builder.examples.perspective">
+            id="de.baumato.jobs.builder.examples.perspective">
       </perspective>
    </extension>
    <extension
@@ -24,7 +24,7 @@
       <view
             name="Jobs"
             class="de.baumato.jobs.builder.examples.JobExamplesView"
-            id="org.tobbaumann.jobs.builder.examples.view">
+            id="de.baumato.jobs.builder.examples.view">
       </view>
       <view
             category="org.eclipse.ui"
@@ -39,7 +39,7 @@
       <perspectiveExtension
             targetID="*">
          <view
-               id="org.tobbaumann.jobs.builder.examples.view"
+               id="de.baumato.jobs.builder.examples.view"
                minimized="false"
                ratio="70"
                relationship="top"
@@ -51,7 +51,7 @@
                minimized="false"
                ratio="30"
                relationship="bottom"
-               relative="org.tobbaumann.jobs.builder.examples.view"
+               relative="de.baumato.jobs.builder.examples.view"
                showTitle="true"
                standalone="true">
          </view>

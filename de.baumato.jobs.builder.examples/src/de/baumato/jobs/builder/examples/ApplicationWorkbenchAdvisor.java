@@ -16,7 +16,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
-  private static final String PERSPECTIVE_ID = "org.tobbaumann.jobs.builder.examples.perspective";
+  private static final String PERSPECTIVE_ID = "de.baumato.jobs.builder.examples.perspective";
 
   @Override
   public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
