@@ -43,7 +43,6 @@
                minimized="false"
                ratio="70"
                relationship="top"
-               relative="org.eclipse.ui.views.ProgressView"
                standalone="true">
          </view>
          <view
