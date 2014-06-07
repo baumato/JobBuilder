@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Tobias Baumann - initial API and implementation
  ******************************************************************************/
@@ -199,7 +199,7 @@ public class JobBuilder {
 
   /**
    * The given feedback gets given to the user as soon as the job is finished. It is not taken into
-   * account whether the job run in the background. The feedback runs in the UI thread.
+   * account whether the job runs in the background. The feedback runs in the UI thread.
    *
    * @see #userFeedback(String, UserFeedbackRunnable)
    * @param jobCompletionTitle, may be null or empty to use the default text
