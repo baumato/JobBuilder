@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_ErXWIKYuEeOKkPd5sJgrvA" elementId="org.eclipse.e4.ide.application" bindingContexts="_ErXWKaYuEeOKkPd5sJgrvA">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_ErXWIaYuEeOKkPd5sJgrvA" label="de.baumato.jobs.builder.e4.examples" width="400" height="800">
+    <children xsi:type="advanced:PerspectiveStack" xmi:id="_ErX9NaYuEeOKkPd5sJgrvA">
+      <children xsi:type="advanced:Perspective" xmi:id="_ErX9NqYuEeOKkPd5sJgrvA">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_ErX9N6YuEeOKkPd5sJgrvA">
+          <children xsi:type="basic:PartStack" xmi:id="_ErX9OKYuEeOKkPd5sJgrvA" containerData="70">
+            <children xsi:type="basic:Part" xmi:id="_ErX9OaYuEeOKkPd5sJgrvA" contributionURI="bundleclass://de.baumato.jobs.builder.e4.examples/de.baumato.jobs.builder.e4.examples.TestingPart" label="Job Test"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_pz9kMLanEeOYdJTmm9Pd7w" elementId="de.baumato.jobs.builder.e4.examples.partstack.0" containerData="30">
+            <children xsi:type="basic:Part" xmi:id="_s_ft0LcwEeOZb7_Ve73HdQ" elementId="de.baumato.jobs.builder.e4.examples.part.0" contributionURI="bundleclass://org.eclipse.e4.ui.progress/org.eclipse.e4.ui.progress.ProgrammaticProgressView" label="Programmatic ProgressView" iconURI="platform:/plugin/org.eclipse.e4.ui.progress/icons/full/progress/pview.png"/>
+          </children>
+        </children>
+      </children>
+    </children>
+    <mainMenu xmi:id="_ErXWOaYuEeOKkPd5sJgrvA" elementId="menu:org.eclipse.ui.main.menu">
+      <children xsi:type="menu:Menu" xmi:id="_ErXWOqYuEeOKkPd5sJgrvA" label="&amp;File">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_ErX9NKYuEeOKkPd5sJgrvA" label="&amp;About" command="_ErXWNqYuEeOKkPd5sJgrvA"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_ErX9MqYuEeOKkPd5sJgrvA" label="&amp;Quit" command="_ErXWLKYuEeOKkPd5sJgrvA"/>
+      </children>
+    </mainMenu>
+  </children>
+  <handlers xmi:id="_ErXWLaYuEeOKkPd5sJgrvA" elementId="de.baumato.jobs.builder.e4.examples.handler.quitCommand" contributionURI="bundleclass://de.baumato.jobs.builder.e4.examples/de.baumato.jobs.builder.e4.examples.QuitHandler" command="_ErXWLKYuEeOKkPd5sJgrvA"/>
+  <handlers xmi:id="_ErXWN6YuEeOKkPd5sJgrvA" elementId="de.baumato.jobs.builder.e4.examples.handler.aboutCommand" contributionURI="bundleclass://de.baumato.jobs.builder.e4.examples/de.baumato.jobs.builder.e4.examples.AboutHandler" command="_ErXWNqYuEeOKkPd5sJgrvA"/>
+  <bindingTables xmi:id="_ErXWLqYuEeOKkPd5sJgrvA" bindingContext="_ErXWKaYuEeOKkPd5sJgrvA">
+    <bindings xmi:id="_ErXWL6YuEeOKkPd5sJgrvA" keySequence="M1+Q" command="_ErXWLKYuEeOKkPd5sJgrvA"/>
+    <bindings xmi:id="_ErXWOKYuEeOKkPd5sJgrvA" keySequence="M1+A" command="_ErXWNqYuEeOKkPd5sJgrvA"/>
+  </bindingTables>
+  <rootContext xmi:id="_ErXWKaYuEeOKkPd5sJgrvA" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
+    <children xmi:id="_ErXWKqYuEeOKkPd5sJgrvA" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
+    <children xmi:id="_ErXWK6YuEeOKkPd5sJgrvA" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
+  </rootContext>
+  <commands xmi:id="_ErXWLKYuEeOKkPd5sJgrvA" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
+  <commands xmi:id="_ErXWNqYuEeOKkPd5sJgrvA" elementId="org.eclipse.ui.help.aboutAction" commandName="aboutCommand"/>
+  <addons xmi:id="_ErXWIqYuEeOKkPd5sJgrvA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
+  <addons xmi:id="_ErXWI6YuEeOKkPd5sJgrvA" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
+  <addons xmi:id="_ErXWJKYuEeOKkPd5sJgrvA" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
+  <addons xmi:id="_ErXWJaYuEeOKkPd5sJgrvA" elementId="org.eclipse.e4.ui.workbench.commands.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.CommandProcessingAddon"/>
+  <addons xmi:id="_ErXWJqYuEeOKkPd5sJgrvA" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
+  <addons xmi:id="_ErXWJ6YuEeOKkPd5sJgrvA" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
+  <addons xmi:id="_ErXWKKYuEeOKkPd5sJgrvA" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
+  <addons xmi:id="_6iQRALaoEeOYdJTmm9Pd7w" elementId="org.eclipse.e4.demo.contacts.jobs.addon.progressmanager" contributionURI="bundleclass://org.eclipse.e4.ui.progress/org.eclipse.e4.ui.progress.ProgressViewAddon"/>
+</application:Application>
