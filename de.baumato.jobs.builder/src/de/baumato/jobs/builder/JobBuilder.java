@@ -28,9 +28,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 /**
  * Builder to create and schedule jobs. For details on jobs, see
  * http://www.eclipse.org/articles/Article-Concurrency/jobs-api.html
- *
- * @author tobbaumann
- *
  */
 public class JobBuilder {
 

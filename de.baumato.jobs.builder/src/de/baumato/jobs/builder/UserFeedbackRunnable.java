@@ -16,9 +16,6 @@ import org.eclipse.core.runtime.IStatus;
  * UserFeedbackRunnable
  *
  * @see #performUserFeedback(boolean)
- *
- * @author tobbaumann
- *
  */
 public interface UserFeedbackRunnable {
 

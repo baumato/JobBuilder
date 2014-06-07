@@ -13,10 +13,6 @@
  */
 package de.baumato.jobs.builder;
 
-/**
- * @author tobbaumann
- *
- */
 public class Jobs {
 
   private Jobs() {}

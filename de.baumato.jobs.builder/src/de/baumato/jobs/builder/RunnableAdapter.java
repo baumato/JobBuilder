@@ -21,9 +21,6 @@ import com.google.common.base.Throwables;
 
 /**
  * Lets a <tt>Runnable</tt> act as a <tt>IRunnableWithProgress</tt> with unknown amount of work.
- *
- * @author tobbaumann
- *
  */
 public class RunnableAdapter implements IRunnableWithProgress {
 

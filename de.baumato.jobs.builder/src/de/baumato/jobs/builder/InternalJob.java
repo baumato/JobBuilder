@@ -28,11 +28,6 @@ import org.eclipse.ui.progress.IProgressConstants;
 
 import de.baumato.jobs.builder.JobBuilder.JobKind;
 
-/**
- *
- * @author tobbaumann
- *
- */
 final class InternalJob extends Job {
 
   private static final String PLUGIN_ID = "de.baumato.jobs.builder";
