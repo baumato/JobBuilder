@@ -32,7 +32,7 @@ Jobs.builder()
 
 ### Build and schedule a job that does not run concurrently
 
-Creates a job that runs not concurrently and that reports all changes to the given jobChangeListener.
+Creates a job that does not run concurrently and that reports all changes to the given jobChangeListener.
 
 ```java
 Job myJob = Jobs.builder()
