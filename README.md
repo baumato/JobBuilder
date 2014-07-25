@@ -30,7 +30,7 @@ Jobs.builder()
 	}).buildAndSchedule();
 ```
 
-### Build and schedule a job that runs not concurrently
+### Build and schedule a job that does not run concurrently
 
 Creates a job that runs not concurrently and that reports all changes to the given jobChangeListener.
 
